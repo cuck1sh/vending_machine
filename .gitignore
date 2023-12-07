@@ -11,9 +11,12 @@ out/
 ./*.iml
 /*.iml
 *.iml
+/.iml/
 
 ./out/
 /out/
+
+vending_machine.iml
 
 
 
