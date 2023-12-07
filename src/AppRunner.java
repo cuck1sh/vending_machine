@@ -1,4 +1,7 @@
+import MoneyReceiver.BankCard;
+import MoneyReceiver.Cash;
 import enums.ActionLetter;
+import exceptions.CustomException;
 import model.*;
 import util.UniversalArray;
 import util.UniversalArrayImpl;
@@ -22,7 +25,7 @@ public class AppRunner {
                 new Mars(ActionLetter.F, 80),
                 new Pistachios(ActionLetter.G, 130)
         });
-        coinAcceptor = new CoinAcceptor(100);
+        coinAcceptor = new CoinAcceptor(0);
     }
 
     public static void run() {
@@ -54,14 +57,41 @@ public class AppRunner {
         return allowProducts;
     }
 
+    private void paymentChoise(){
+        System.out.print("""
+                Способ оплаты\s
+                1. Картой
+                2. Наличкой
+                """);
+        System.out.print("Выберите способ: ");
+        try {
+            int num = new Scanner(System.in).nextInt();
+            if (num == 1) {
+                coinAcceptor.setAmount(new BankCard().moneyInput());
+            } else if (num == 0) {
+                coinAcceptor.setAmount(new Cash().moneyInput());
+            } else {
+                throw new CustomException("Введите число от 1 до 2");
+            }
+        } catch (IllegalArgumentException e) {
+            System.out.println("Введите число");
+            paymentChoise();
+        } catch (CustomException CE) {
+            System.out.println(CE.getMessage());
+            paymentChoise();
+        }
+    }
+
     private void chooseAction(UniversalArray<Product> products) {
         print(" a - Пополнить баланс");
         showActions(products);
         print(" h - Выйти");
         String action = fromConsole().substring(0, 1);
         if ("a".equalsIgnoreCase(action)) {
-            coinAcceptor.setAmount(coinAcceptor.getAmount() + 10);
-            print("Вы пополнили баланс на 10");
+            int prevCash = coinAcceptor.getAmount();
+            paymentChoise();
+            int newCash = coinAcceptor.getAmount() - prevCash;
+            print("Вы пополнили баланс на " + newCash + "$");
             return;
         }
         try {
@@ -80,8 +110,6 @@ public class AppRunner {
                 chooseAction(products);
             }
         }
-
-
     }
 
     private void showActions(UniversalArray<Product> products) {
