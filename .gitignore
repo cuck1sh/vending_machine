@@ -1,10 +1,21 @@
 ### IntelliJ IDEA ###
 /.idea
-./.idea
 .idea/
 out/
 !**/src/main/**/out/
 !**/src/test/**/out/
+
+./.idea/
+/.idea/
+
+./*.iml
+/*.iml
+*.iml
+
+./out/
+/out/
+
+
 
 ### Eclipse ###
 .apt_generated
@@ -30,3 +41,5 @@ bin/
 
 ### Mac OS ###
 .DS_Store
+/.idea/
+/.idea/
