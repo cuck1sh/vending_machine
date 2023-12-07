@@ -2,7 +2,7 @@ package MoneyReceiver;
 
 public class Cash implements PaymentMethod{
     @Override
-    public void moneyInput() {
+    public int moneyInput() {
         System.out.println("");
     }
 }
