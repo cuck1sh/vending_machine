@@ -13,6 +13,8 @@ public class AppRunner {
     private final UniversalArray<Product> products = new UniversalArrayImpl<>();
 
     private final CoinAcceptor coinAcceptor;
+    private BankCard bankCard = new BankCard();
+    private Cash cash = new Cash();
 
     private static boolean isExit = false;
 
@@ -67,9 +69,9 @@ public class AppRunner {
         try {
             int num = new Scanner(System.in).nextInt();
             if (num == 1) {
-                coinAcceptor.setAmount(new BankCard().moneyInput());
-            } else if (num == 0) {
-                coinAcceptor.setAmount(new Cash().moneyInput());
+                coinAcceptor.setAmount(bankCard.moneyInput());
+            } else if (num == 2) {
+                coinAcceptor.setAmount(cash.moneyInput());
             } else {
                 throw new CustomException("Введите число от 1 до 2");
             }
@@ -86,6 +88,7 @@ public class AppRunner {
         print(" a - Пополнить баланс");
         showActions(products);
         print(" h - Выйти");
+        System.out.print("Действие: ");
         String action = fromConsole().substring(0, 1);
         if ("a".equalsIgnoreCase(action)) {
             int prevCash = coinAcceptor.getAmount();
